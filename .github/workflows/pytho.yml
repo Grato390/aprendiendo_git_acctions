@@ -6,8 +6,14 @@ on:  # Define cuándo se ejecutará esta automatización
   push:
     branches: main      # Se activa cuando alguien hace push a la rama main
 
-# permissions:
-#   contents: read        # Define permisos de solo lectura para el repositorio
+
+# aca listaremos variables de entorno
+# osea coo que puede ser??
+env:
+  plataforma: linux
+  region: us-east-1
+  account_id: 123456789012
+
 
 jobs:
   build:               # Define un trabajo llamado "build"
@@ -17,8 +23,13 @@ jobs:
     - name: mostrar mensaje
       run: echo "Hola mundo"    # Esta línea necesita estar al mismo nivel que name
     # - uses: actions/checkout@v4  # Descarga el código del repositorio
-
-    
+    steps:
+    - name: "mostrar variables de entorno"
+      run: |
+        echo "Plataforma: ${{ env.plataforma }}"
+        echo "Region: ${{ env.region }}"
+        echo "Account ID: ${{ env.account_id }}"
+        
 #     - name: Set up Python 3.10  # Configura Python 3.10
 #       uses: actions/setup-python@v4
 #       with:
