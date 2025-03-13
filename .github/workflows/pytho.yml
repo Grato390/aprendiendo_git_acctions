@@ -33,7 +33,7 @@ jobs:
       
 
     - name: "mostrando varibales de git acction"
-    run:
+      run:
       echo "evento: ${{ github.event_name }}"
       #  quiero ver el actoro y luego el repostorio
       echo "actor: ${{ github.actor }}"
