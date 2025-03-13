@@ -30,15 +30,14 @@ jobs:
         echo "Plataforma: ${{ env.plataforma }}"
         echo "Region: ${{ env.region }}"
         echo "Account ID: ${{ env.account_id }}"
-      
 
     - name: "mostrando varibales de git acction"
-    # cuidado con el barra eso
+      # cuidado con el barra eso
       run: |
-      echo "evento: ${{ github.event_name }}"
-      #  quiero ver el actoro y luego el repostorio
-      echo "actor: ${{ github.actor }}"
-      echo "repositorio: ${{ github.repository }}"
+        echo "evento: ${{ github.event_name }}"
+        # quiero ver el actor y luego el repositorio
+        echo "actor: ${{ github.actor }}"
+        echo "repositorio: ${{ github.repository }}"
 
 
 #     - name: Set up Python 3.10  # Configura Python 3.10
