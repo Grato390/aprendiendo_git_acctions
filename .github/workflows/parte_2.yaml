@@ -2,7 +2,7 @@ name: Python application  # Nombre de la automatización
 
 on:
   push:
-    branches: main
+    branches: main2
 
 jobs:
   build:
