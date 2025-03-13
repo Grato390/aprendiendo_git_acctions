@@ -1,51 +1,58 @@
-name: Python application  # Nombre de la automatización
+name: Python application  # Nombre del workflow (automatización)
 
 on:
-  push:
+  push:  # El workflow se ejecutará cuando haya un `push` en la rama `main`
     branches: main2
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build:  # Definimos el trabajo `build`
+    runs-on: ubuntu-latest  # Se ejecutará en un servidor con Ubuntu más reciente
 
-    env:
-      mostrar: no
-      plataforma: linux
-      region: us-east-1
-      account_id: 123456789012
-      variable_secreto: ${{ secrets.CLAVE_SECRETO }}
+    env:  # Variables de entorno que estarán disponibles en el trabajo
+      mostrar: no  # Variable que indica si se mostrarán valores (se usa en condicionales)
+      plataforma: linux  # Definimos la plataforma
+      region: us-east-1  # Región para despliegue (simulación de AWS)
+      account_id: 123456789012  # ID de cuenta (simulación)
+      variable_secreto: ${{ secrets.CLAVE_SECRETO }}  # Variable de secreto desde GitHub Secrets
 
-    steps:
-    - name: Checkout del código
-      uses: actions/checkout@v4
+    steps:  # Pasos del workflow
+    - name: Checkout del código  # 🔹 1. Descarga el código del repositorio
+      uses: actions/checkout@v4  
+      # Esta acción oficial de GitHub permite clonar el código dentro del runner
+      # Es necesario para que otros pasos puedan acceder a los archivos del repo
 
-    - name: Creando JSON
+    - name: Creando JSON  # 🔹 2. Crear un archivo JSON vacío
       run: |
-        echo "Se está creando el JSON..."
-        echo '{"productos": []}' > data.json
-        cat data.json
+        echo "Se está creando el JSON..."  # Mensaje de depuración
+        echo '{"productos": []}' > data.json  # Crea un archivo `data.json` con una lista vacía
+        cat data.json  # Muestra el contenido del JSON en la terminal
 
-    - name: Metiendo datos a una lista
+    - name: Metiendo datos a una lista  # 🔹 3. Agregar elementos a la lista en JSON
       run: |
-        echo "Agregando productos a la lista..."
-        echo '{"productos": [{"id": 1, "nombre": "Laptop"}, {"id": 2, "nombre": "Mouse"}]}' > data.json
-        cat data.json
+        echo "Agregando productos a la lista..."  # Mensaje de depuración
+        echo '{"productos": [{"id": 1, "nombre": "Laptop"}, {"id": 2, "nombre": "Mouse"}]}' > data.json  
+        # Reemplaza `data.json` con una nueva versión que tiene 2 productos
+        cat data.json  # Muestra el contenido actualizado del JSON
 
-    - name: Mostrando datos de la lista
+    - name: Mostrando datos de la lista  # 🔹 4. Recorrer y mostrar los productos
       run: |
         echo "Mostrando los productos..."
         cat data.json | jq -c '.productos[]' | while read -r producto; do
-          echo "Producto encontrado: $producto"
+          echo "Producto encontrado: $producto"  # Muestra cada producto en la lista
         done
+      # `jq -c '.productos[]'` extrae cada producto como una línea JSON
+      # `while read -r producto; do ... done` recorre cada línea y la imprime
 
-    - name: Condicionales en JSON
+    - name: Condicionales en JSON  # 🔹 5. Buscar un producto en la lista
       run: |
         echo "Buscando si hay un producto llamado 'Laptop'..."
         existe=$(cat data.json | jq '.productos[] | select(.nombre=="Laptop")')
         
         if [ -n "$existe" ]; then
           echo "✅ Producto encontrado en la lista!"
-          echo "$existe"
+          echo "$existe"  # Muestra el producto encontrado
         else
           echo "❌ Producto NO encontrado"
         fi
+      # `jq '.productos[] | select(.nombre=="Laptop")'` busca un objeto con nombre "Laptop"
+      # `if [ -n "$existe" ]; then` verifica si la variable contiene algo (si encontró el producto)
