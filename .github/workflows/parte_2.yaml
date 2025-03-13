@@ -1,0 +1,51 @@
+name: Python application  # Nombre de la automatización
+
+on:
+  push:
+    branches: main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      mostrar: no
+      plataforma: linux
+      region: us-east-1
+      account_id: 123456789012
+      variable_secreto: ${{ secrets.CLAVE_SECRETO }}
+
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    - name: Creando JSON
+      run: |
+        echo "Se está creando el JSON..."
+        echo '{"productos": []}' > data.json
+        cat data.json
+
+    - name: Metiendo datos a una lista
+      run: |
+        echo "Agregando productos a la lista..."
+        echo '{"productos": [{"id": 1, "nombre": "Laptop"}, {"id": 2, "nombre": "Mouse"}]}' > data.json
+        cat data.json
+
+    - name: Mostrando datos de la lista
+      run: |
+        echo "Mostrando los productos..."
+        cat data.json | jq -c '.productos[]' | while read -r producto; do
+          echo "Producto encontrado: $producto"
+        done
+
+    - name: Condicionales en JSON
+      run: |
+        echo "Buscando si hay un producto llamado 'Laptop'..."
+        existe=$(cat data.json | jq '.productos[] | select(.nombre=="Laptop")')
+        
+        if [ -n "$existe" ]; then
+          echo "✅ Producto encontrado en la lista!"
+          echo "$existe"
+        else
+          echo "❌ Producto NO encontrado"
+        fi
