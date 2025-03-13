@@ -1,43 +1,36 @@
 name: Python application  # Nombre de la automatización
 
-
-# en este caso solo se va ejecutar si se hace un prush
-on:  # Define cuándo se ejecutará esta automatización
+# El workflow se ejecutará al hacer push a la rama main
+on:
   push:
-    branches: main      # Se activa cuando alguien hace push a la rama main
+    branches: [main]
 
-
-# aca listaremos variables de entorno
-# osea coo que puede ser??
-
-
-
+# Definiendo el trabajo del workflow
 jobs:
-  build:               # Define un trabajo llamado "build"
-    env:              # Environment variables block should be properly indented
+  build:  # Nombre del trabajo
+    runs-on: ubuntu-latest  # Sistema operativo donde se ejecutará
+
+    env:  # Variables de entorno a nivel de trabajo
       mostrar: no
       plataforma: linux
       region: us-east-1
       account_id: 123456789012
-    runs-on: ubuntu-latest  # Se ejecutará en la última versión de Ubuntu
 
-    steps:             # Lista de pasos a ejecutar
-    - name: mostrar mensaje
-      run: echo "Hola mundo"    # Esta línea necesita estar al mismo nivel que name
-    # - uses: actions/checkout@v4  # Descarga el código del repositorio
-    - name: "mostrar variables de entorno"   # Removed duplicate 'steps:' and fixed indentation
-      # usando condicional en este caso
-      if: ${{ env.mostrar == 'si' }}
+    steps:  # Pasos del workflow
+    - name: Checkout del código
+      uses: actions/checkout@v4  # Descarga el código del repositorio
+
+    - name: Mostrar mensaje
+      run: echo "Hola mundo"
+
+    - name: Mostrar variables de entorno
+      if: ${{ env.mostrar == 'si' }}  # Condicional para ejecutar este paso solo si mostrar es 'si'
       run: |
         echo "Mostrar: ${{ env.mostrar }}"
         echo "Plataforma: ${{ env.plataforma }}"
         echo "Region: ${{ env.region }}"
         echo "Account ID: ${{ env.account_id }}"
-      run: |
-        echo "Plataforma: ${{ env.plataforma }}"
-        echo "Region: ${{ env.region }}"
-        echo "Account ID: ${{ env.account_id }}"
-        
+
 #     - name: Set up Python 3.10  # Configura Python 3.10
 #       uses: actions/setup-python@v4
 #       with:
