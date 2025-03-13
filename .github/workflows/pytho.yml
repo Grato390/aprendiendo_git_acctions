@@ -15,6 +15,8 @@ jobs:
       plataforma: linux
       region: us-east-1
       account_id: 123456789012
+      # meteremos un clave de secreto a a una variable
+      variable_secreto:${{secrets.CLAVE_SECRETO}}
 
     steps:  # Pasos del workflow
     - name: Checkout del código
@@ -38,6 +40,8 @@ jobs:
         # quiero ver el actor y luego el repositorio
         echo "actor: ${{ github.actor }}"
         echo "repositorio: ${{ github.repository }}"
+        # aqui mostraremos variables de entorno
+        echo " este es el alor de clave secreto ${{env.variable_secreto}}"
 
 
 #     - name: Set up Python 3.10  # Configura Python 3.10
