@@ -45,7 +45,8 @@ jobs:
       shell: bash
 
     - name: 📦 Subir reporte como artefacto
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
+
       with:
         name: Reporte-Inventario
         path: reporte.md  # 🔹 Permite descargarlo desde GitHub Actions
