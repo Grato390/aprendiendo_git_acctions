@@ -9,22 +9,22 @@ on:  # Define cuándo se ejecutará esta automatización
 
 # aca listaremos variables de entorno
 # osea coo que puede ser??
-env:
-  plataforma: linux
-  region: us-east-1
-  account_id: 123456789012
+
 
 
 jobs:
   build:               # Define un trabajo llamado "build"
+    env:              # Environment variables block should be properly indented
+      plataforma: linux
+      region: us-east-1
+      account_id: 123456789012
     runs-on: ubuntu-latest  # Se ejecutará en la última versión de Ubuntu
 
     steps:             # Lista de pasos a ejecutar
     - name: mostrar mensaje
       run: echo "Hola mundo"    # Esta línea necesita estar al mismo nivel que name
     # - uses: actions/checkout@v4  # Descarga el código del repositorio
-    steps:
-    - name: "mostrar variables de entorno"
+    - name: "mostrar variables de entorno"   # Removed duplicate 'steps:' and fixed indentation
       run: |
         echo "Plataforma: ${{ env.plataforma }}"
         echo "Region: ${{ env.region }}"
