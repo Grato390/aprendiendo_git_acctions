@@ -15,6 +15,7 @@ on:  # Define cuándo se ejecutará esta automatización
 jobs:
   build:               # Define un trabajo llamado "build"
     env:              # Environment variables block should be properly indented
+      mostrar: no
       plataforma: linux
       region: us-east-1
       account_id: 123456789012
@@ -25,6 +26,13 @@ jobs:
       run: echo "Hola mundo"    # Esta línea necesita estar al mismo nivel que name
     # - uses: actions/checkout@v4  # Descarga el código del repositorio
     - name: "mostrar variables de entorno"   # Removed duplicate 'steps:' and fixed indentation
+      # usando condicional en este caso
+      if: ${{ env.mostrar == 'si' }}
+      run: |
+        echo "Mostrar: ${{ env.mostrar }}"
+        echo "Plataforma: ${{ env.plataforma }}"
+        echo "Region: ${{ env.region }}"
+        echo "Account ID: ${{ env.account_id }}"
       run: |
         echo "Plataforma: ${{ env.plataforma }}"
         echo "Region: ${{ env.region }}"
