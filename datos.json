@@ -1,0 +1,41 @@
+{
+    "tienda": "SuperTech",
+    "productos": [
+      {
+        "id": 1,
+        "nombre": "Laptop Gamer",
+        "precio": 1500.99,
+        "stock": 5,
+        "categoria": "Electrónica"
+      },
+      {
+        "id": 2,
+        "nombre": "Mouse Inalámbrico",
+        "precio": 25.99,
+        "stock": 30,
+        "categoria": "Accesorios"
+      },
+      {
+        "id": 3,
+        "nombre": "Teclado Mecánico",
+        "precio": 80.50,
+        "stock": 10,
+        "categoria": "Accesorios"
+      },
+      {
+        "id": 4,
+        "nombre": "Monitor 27'' 4K",
+        "precio": 320.00,
+        "stock": 3,
+        "categoria": "Electrónica"
+      },
+      {
+        "id": 5,
+        "nombre": "Silla Ergonómica",
+        "precio": 199.99,
+        "stock": 7,
+        "categoria": "Muebles"
+      }
+    ]
+  }
+  

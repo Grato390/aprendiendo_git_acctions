@@ -1,0 +1,54 @@
+name: Procesar datos de la tienda
+
+on: 
+  push:
+    branches: main3  # 🔥 Se ejecuta cuando hay cambios en la rama main
+  workflow_dispatch:  # 🔄 Permite ejecutarlo manualmente desde GitHub
+
+jobs:
+  procesar_datos:
+    runs-on: ubuntu-latest  # 🌍 Se ejecutará en una máquina con Ubuntu
+
+    steps:
+    - name: 📥 Descargar código del repositorio
+      uses: actions/checkout@v4  # 🔹 Necesario para acceder a los archivos del repo
+
+    - name: 🐍 Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"  # 🔹 Configura la versión de Python
+
+    - name: 🔍 Mostrar archivos disponibles
+      run: ls -R  # 📂 Lista la estructura del repo
+
+    - name: 📄 Leer contenido de datos.json
+      run: cat datos.json  # 🔹 Muestra el contenido del JSON en la terminal
+
+    - name: 🚀 Ejecutar script.py
+      run: python script.py  # 🔹 Ejecuta el script y procesa los datos
+
+    - name: 📝 Extraer datos clave desde JSON
+      run: |
+        STOCK_BAJO=$(jq '[.productos[] | select(.stock < 5)] | length' datos.json)
+        echo "STOCK_BAJO=$STOCK_BAJO" >> $GITHUB_ENV  # 🔹 Guarda en variable de entorno
+        echo "🔍 Productos con bajo stock: $STOCK_BAJO"
+
+    - name: ⚠️ Verificar si hay productos con bajo stock
+      if: env.STOCK_BAJO > 0  # 🔥 Condición en GitHub Actions
+      run: echo "⚠️ ¡Alerta! Hay productos con bajo stock"
+
+    - name: 📤 Guardar el reporte de inventario
+      run: |
+        echo "### Reporte de Inventario 🚀" > reporte.md
+        echo "$(date)" >> reporte.md
+        echo "\nProductos con bajo stock: $STOCK_BAJO" >> reporte.md
+      shell: bash
+
+    - name: 📦 Subir reporte como artefacto
+      uses: actions/upload-artifact@v3
+      with:
+        name: Reporte-Inventario
+        path: reporte.md  # 🔹 Permite descargarlo desde GitHub Actions
+
+    - name: ✅ Finalizar workflow
+      run: echo "🎉 Workflow completado con éxito"
