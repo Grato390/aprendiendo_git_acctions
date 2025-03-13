@@ -16,8 +16,7 @@ jobs:
       region: us-east-1
       account_id: 123456789012
       # meteremos un clave de secreto a a una variable
-      variable_secreto:${{secrets.CLAVE_SECRETO}}
-
+      variable_secreto: ${{ secrets.CLAVE_SECRETO }}
     steps:  # Pasos del workflow
     - name: Checkout del código
       uses: actions/checkout@v4  # Descarga el código del repositorio
